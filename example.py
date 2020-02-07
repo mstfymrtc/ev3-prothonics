@@ -48,7 +48,7 @@ def main():
     blindRobot = prothonics.Prothonics(10, 10)
     blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
-    blindRobot.useBrain().reactTo("perception(['White', 'Red', 'Red'])",  "takeDecision()")
+    blindRobot.useBrain().reactTo("perception(['Red', 'Yellow', 'Red'])",  "takeDecision()")
     print("West obstacle: Facts and Decisions:")
     print(blindRobot.useBrain().useMemory().getAllFacts())
     print(blindRobot.useBrain().useMemory().getAllDecisions())

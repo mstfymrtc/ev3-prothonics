@@ -54,7 +54,7 @@ class Brain:
         decisionFactClass = str(decisionFactClass)
         self.__learning.learnNewFact(fact)
         self.__memory.putNewFact(fact)
-        newDecision = self.__behaviour.takeDecision(decisionFactClass=decisionFactClass, singleOut=True)
+        newDecision = self.__behaviour.takeDecision(decisionFactClass=decisionFactClass, singleOut=False)
         if newDecision:
             self.__memory.putNewDecision(newDecision)
         return
