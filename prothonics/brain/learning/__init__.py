@@ -34,7 +34,7 @@ class Learning:
         self.__prologEngine.retractall(factClass)
         return
 
-    def learnKnoledgeBaseFromFile(self, prologFilePath):
+    def learnKnowledgeBaseFromFile(self, prologFilePath):
         '''
         Learns from a SWI Prolog file.
         :param prologFilePath: The path of the Prolog (.pl or .txt) file we need to use.

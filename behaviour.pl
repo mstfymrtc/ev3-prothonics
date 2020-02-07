@@ -1,16 +1,62 @@
-hasValue('NorthSensor', S1) :- perception([S1, _, _, _]).
-hasValue('WestSensor', S2) :- perception([_, S2, _, _]).
-hasValue('EastSensor', S3) :- perception([_, _, S3, _]).
-hasValue('SouthSensor', S4) :- perception([_, _, _, S4]).
+hasValue('FrontColorSensor', S1) :- perception([S1, _, _]).
+hasValue('RightColorSensor', S2) :- perception([_, S2, _]).
+hasValue('LeftColorSensor', S3) :- perception([_, _, S3]).
 
-takeDecision('North') :-
-    hasValue('NorthSensor', 'False'), !.
+%+++++++++++ front beyazsa ilerle
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'White'), !.
+%if true dont look for the remainings = cut operator
 
-takeDecision('West') :-
-    hasValue('WestSensor', 'False'), !.
+%prolog decisionunu liste olarak alıp her item için iterate etmek
+%gerekebilir. örn decisionlar MoveForward ve Eat ise, sırasıyla
+%çalıştırılırlar
 
-takeDecision('East') :-
-    hasValue('EastSensor', 'False'), !.
+%+++++++++++ front sarıysa ilerle sonra yemek ye
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'Yellow').
 
-takeDecision('South') :-
-    hasValue('SouthSensor', 'False').
+takeDecision('Eat') :-
+    hasValue('FrontColorSensor', 'Yellow'), !.
+%+++++++++++ front kırmızı ve sağ beyazsa sağa dön sonra ilerle
+takeDecision('TurnRight') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'White').
+
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'White'), !.
+
+%+++++++++++ front kırmızı ve sağ sarıysa sağa dön sonra ilerle, sonra yemek ye
+takeDecision('TurnRight') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Yellow').
+
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Yellow').
+
+takeDecision('Eat') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Yellow'), !.
+%+++++++++++ front kırmızı ve sağ kırmızıysa ve sol beyazsa sola dön sonra ilerle
+
+takeDecision('TurnLeft') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'White').
+
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'White'), !.
+
+%+++++++++++ front kırmızı ve sağ kırmızıysa ve sol sarıysa sola dön sonra ilerle sonra yemek ye
+
+takeDecision('TurnLeft') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Yellow').
+
+takeDecision('MoveForward') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Yellow').
+
+takeDecision('Eat') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Yellow'), !.
+
+%+++++++++++ front kırmızı ve sağ kırmızı ve sol kırmızıysa
+
+
+
+
+
+
+

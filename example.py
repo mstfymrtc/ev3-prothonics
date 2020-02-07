@@ -15,31 +15,44 @@ See the License for the specific language governing permissions and limitations 
 
 import prothonics
 import numpy as np
+#eat=just increase the score
+
+#if frontColorSensor==white:
+    #move_forward()
+#elif frontColorSensor==yellow:
+    #move_forward()
+    #eat()
+#else: öne gidemez
+    #if RightColorSensor==white:
+        #turn_right()
+        #move_forward()
+    #elif RightColorSensor==yellow:
+        #turn_right()
+        #move_forward()
+        #eat()
+    #else: öne ve sağa gidemez
+        #if LeftColorSensor==white:
+            #turn_left()
+            #move_forward()
+        #elif LeftColorSensor==yellow:
+            #turn_left()
+            #move_forward()
+            #eat()
+        #else: öne,sağa ve sola gidemez
+
+            
+
 
 def main():
 
     blindRobot = prothonics.Prothonics(10, 10)
-    blindRobot.useBrain().useLearning().learnKnoledgeBaseFromFile("behaviour.pl")
+    blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
-    blindRobot.useBrain().reactTo("perception(['False', 'True', 'False', 'False'])",  "takeDecision()")
+    blindRobot.useBrain().reactTo("perception(['White', 'Red', 'Red'])",  "takeDecision()")
     print("West obstacle: Facts and Decisions:")
     print(blindRobot.useBrain().useMemory().getAllFacts())
     print(blindRobot.useBrain().useMemory().getAllDecisions())
 
-    blindRobot.useBrain().reactTo("perception(['True', 'False', 'False', 'False'])",  "takeDecision()")
-    print("North obstacle: Facts and Decisions:")
-    print(blindRobot.useBrain().useMemory().getAllFacts())
-    print(blindRobot.useBrain().useMemory().getAllDecisions())
-
-    blindRobot.useBrain().reactTo("perception(['True', 'True', 'True', 'False'])",  "takeDecision()")
-    print("North, West and East obstacle: Facts and Decisions:")
-    print(blindRobot.useBrain().useMemory().getAllFacts())
-    print(blindRobot.useBrain().useMemory().getAllDecisions())
-
-    blindRobot.useBrain().reactTo("perception(['True', 'False', 'False', 'False'])", "takeDecision()")
-    print("North obstacle: Facts and Decisions:")
-    print(blindRobot.useBrain().useMemory().getAllFacts())
-    print(blindRobot.useBrain().useMemory().getAllDecisions())
 
 
 if __name__ == '__main__':
