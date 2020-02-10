@@ -1,18 +1,3 @@
-# coding : utf-8
-
-'''
-Copyright 2019-2020 Agnese Salutari.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
-an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License
-'''
-
 import prothonics
 import numpy as np
 #eat=just increase the score
@@ -40,18 +25,57 @@ import numpy as np
             #eat()
         #else: öne,sağa ve sola gidemez
 
-            
 
+
+def map_decision_to_action(decision):
+    switcher = {
+        "MoveForward": move_forward,
+        "MoveBackward": move_backward,
+        "TurnRight": turn_right,
+        "TurnLeft": turn_left,
+        "Eat": eat
+    }
+    func=switcher.get(decision, lambda: "Undefined decision")
+    func()
+
+
+def move_forward():
+    print("move forward")
+    #tank fonk. çalıştırılacak
+
+def turn_right():
+    print("turn right")
+
+def turn_left():
+    print("turn left")
+
+def move_backward():
+    print("move backward")
+
+def eat():
+    print("eat")
+
+
+color_sensor_front = 4 #ColorSensor(INPUT_3)
+color_sensor_right = 5
+color_sensor_left = 6
+
+colors = ["Unknown", "Black", "Blue", "Green", "Yellow", "Red", "White",
+          "Brown"]
 
 def main():
 
-    blindRobot = prothonics.Prothonics(10, 10)
+    blindRobot = prothonics.Prothonics(1, 1)
     blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
-    blindRobot.useBrain().reactTo("perception(['Red', 'Yellow', 'Red'])",  "takeDecision()")
-    print("West obstacle: Facts and Decisions:")
+    #fstring -> string içerisinde variable çağırabilme
+    blindRobot.useBrain().reactTo(f"perception(['{colors[color_sensor_front]}', '{colors[color_sensor_right]}', '{colors[color_sensor_left]}'])",  "takeDecision()")
+    print("Facts and Decisions:")
     print(blindRobot.useBrain().useMemory().getAllFacts())
-    print(blindRobot.useBrain().useMemory().getAllDecisions())
+    a = blindRobot.useBrain().useMemory().getAllDecisions()[0][0]
+
+    for i in eval(a):
+        map_decision_to_action(i['D'])
 
 
 

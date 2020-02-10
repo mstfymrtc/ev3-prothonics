@@ -1,6 +1,8 @@
 hasValue('FrontColorSensor', S1) :- perception([S1, _, _]).
 hasValue('RightColorSensor', S2) :- perception([_, S2, _]).
 hasValue('LeftColorSensor', S3) :- perception([_, _, S3]).
+%TODO:white yerine yellow öncelikli olacak
+%TODO:red,red,red durumu handle edilecek.
 
 %+++++++++++ front beyazsa ilerle
 takeDecision('MoveForward') :-

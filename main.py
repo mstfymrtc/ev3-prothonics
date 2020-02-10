@@ -49,13 +49,3 @@ while True:
     #     print("Unknown")
     # print(color_sensor.rgb)
     # sleep(1)
-
-
-# yellow_min = (60, 50, 10)
-# yellow_max = (125, 110, 25)
-
-# red_min = (25, 5, 5)
-# red_max = (125, 5, 10)
-
-# white_min = (30, 25, 70)
-# white_max = (150, 150, 200)
