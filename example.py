@@ -51,9 +51,6 @@ import numpy as np
             #eat()
         #else: öne,sağa ve sola gidemez
 
-
-
-
 def map_decision_to_action(decision):
     switcher = {
         "MoveForward": move_forward,
@@ -62,7 +59,7 @@ def map_decision_to_action(decision):
         "TurnLeft": turn_left,
         "Eat": eat
     }
-    func=switcher.get(decision, lambda: "Undefined decision")
+    func = switcher.get(decision, lambda: "Undefined decision")
     func()
 
 
@@ -70,14 +67,18 @@ def move_forward():
     print("move forward")
     #tank fonk. çalıştırılacak
 
+
 def turn_right():
     print("turn right")
+
 
 def turn_left():
     print("turn left")
 
+
 def move_backward():
     print("move backward")
+
 
 def eat():
     print("eat")
@@ -86,9 +87,9 @@ def eat():
 color_sensor_front = 6 #ColorSensor(INPUT_3)
 color_sensor_right = 6
 color_sensor_left = 4
-
 colors = ["Unknown", "Black", "Blue", "Green", "Yellow", "Red", "White",
           "Brown"]
+
 
 def main():
 
@@ -96,14 +97,14 @@ def main():
     blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
     #fstring -> string içerisinde variable çağırabilme
-    blindRobot.useBrain().reactTo(f"perception(['{colors[color_sensor_front]}', '{colors[color_sensor_right]}', '{colors[color_sensor_left]}'])",  "takeDecision()")
+    blindRobot.useBrain().reactTo(
+        f"perception(['{colors[color_sensor_front]}', '{colors[color_sensor_right]}', '{colors[color_sensor_left]}'])",  "takeDecision()")
     print("Facts and Decisions:")
     print(blindRobot.useBrain().useMemory().getAllFacts())
     a = blindRobot.useBrain().useMemory().getAllDecisions()[0][0]
 
     for i in eval(a):
         map_decision_to_action(i['D'])
-
 
 
 if __name__ == '__main__':
