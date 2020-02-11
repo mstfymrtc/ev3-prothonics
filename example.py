@@ -1,55 +1,33 @@
 import prothonics
 import numpy as np
-#eat=just increase the score
-#vrep robot sensor takılacak yer , hocaya sor
-#robotun dönüş haraketlerini ayarla 
-#herbir kare boyutunu optimal olarak ayarla
+# eat=just increase the score
+# vrep robot sensor takılacak yer , hocaya sor
+# robotun dönüş haraketlerini ayarla
+# herbir kare boyutunu optimal olarak ayarla
 
 
-#if frontColorSensor==yellow:
+# if frontColorSensor==yellow:
 #    move_forward()
 #    eat()
-#elif rightColorSensor==yellow:
+# elif rightColorSensor==yellow:
 #    turn_right()
 #    move_forward()
 #    eat()
-#elif leftColorSensor==yellow:
+# elif leftColorSensor==yellow:
 #    turn_left()
 #    move_forward()
 #    eat()
-#elif frontColorSensor==white:
+# elif frontColorSensor==white:
 #    move_forward()
-#elif rightColorSensor==white:
+# elif rightColorSensor==white:
 #    turn_right()
 #    move_forward()
-#elif leftColorSensor==white:
+# elif leftColorSensor==white:
 #    turn_left()
 #    move_forward()
-#else: #frontColorSensor==red and rightColorSensor==red and leftColorSensor==red
+# else: #frontColorSensor==red and rightColorSensor==red and leftColorSensor==red
 #    turn_backward()
-#------------------------------------------------------------------------------
-#if frontColorSensor==white:
-    #move_forward()
-#elif frontColorSensor==yellow:
-    #move_forward()
-    #eat()
-#else: öne gidemez
-    #if RightColorSensor==white:
-        #turn_right()
-        #move_forward()
-    #elif RightColorSensor==yellow:
-        #turn_right()
-        #move_forward()
-        #eat()
-    #else: öne ve sağa gidemez
-        #if LeftColorSensor==white:
-            #turn_left()
-            #move_forward()
-        #elif LeftColorSensor==yellow:
-            #turn_left()
-            #move_forward()
-            #eat()
-        #else: öne,sağa ve sola gidemez
+
 
 def map_decision_to_action(decision):
     switcher = {
@@ -65,7 +43,7 @@ def map_decision_to_action(decision):
 
 def move_forward():
     print("move forward")
-    #tank fonk. çalıştırılacak
+    # tank fonk. çalıştırılacak
 
 
 def turn_right():
@@ -84,7 +62,7 @@ def eat():
     print("eat")
 
 
-color_sensor_front = 6 #ColorSensor(INPUT_3)
+color_sensor_front = 6  # ColorSensor(INPUT_3)
 color_sensor_right = 6
 color_sensor_left = 4
 colors = ["Unknown", "Black", "Blue", "Green", "Yellow", "Red", "White",
@@ -96,14 +74,14 @@ def main():
     blindRobot = prothonics.Prothonics(1, 1)
     blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
-    #fstring -> string içerisinde variable çağırabilme
+    # fstring -> string içerisinde variable çağırabilme
     blindRobot.useBrain().reactTo(
         f"perception(['{colors[color_sensor_front]}', '{colors[color_sensor_right]}', '{colors[color_sensor_left]}'])",  "takeDecision()")
     print("Facts and Decisions:")
     print(blindRobot.useBrain().useMemory().getAllFacts())
-    a = blindRobot.useBrain().useMemory().getAllDecisions()[0][0]
+    decision = blindRobot.useBrain().useMemory().getAllDecisions()[0][0]
 
-    for i in eval(a):
+    for i in eval(decision):
         map_decision_to_action(i['D'])
 
 
