@@ -19,9 +19,11 @@ class PioneerP3DX:
         self._right_motor = api.joint.with_velocity_control(
             "Pioneer_p3dx_rightMotor")
         self._left_sensor = api.sensor.vision(
-            "LeftRGBSensor")  # type: VisionSensor
+            "LeftColorSensor")  # type: VisionSensor
         self._right_sensor = api.sensor.vision(
-            "RightRGBSensor")  # type: VisionSensor
+            "RightColorSensor")  # type: VisionSensor
+        self._front_sensor = api.sensor.vision(
+            "FrontColorSensor")  # type: VisionSensor
 
     def set_two_motor(self, left: float, right: float):
         self._left_motor.set_target_velocity(left)
