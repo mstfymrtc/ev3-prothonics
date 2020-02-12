@@ -6,36 +6,36 @@ hasValue('LeftColorSensor', S3) :- perception([_, _, S3]).
 takeDecision('MoveForward') :-
     hasValue('FrontColorSensor', 'Yellow').
 takeDecision('Eat') :-
-    hasValue('FrontColorSensor', 'Yellow'),!.
+    hasValue('FrontColorSensor', 'Yellow'), !.
 
 takeDecision('TurnRight') :-
     hasValue('RightColorSensor', 'Yellow').
 takeDecision('MoveForward') :-
     hasValue('RightColorSensor', 'Yellow').
 takeDecision('Eat') :-
-    hasValue('RightColorSensor', 'Yellow'),!.
+    hasValue('RightColorSensor', 'Yellow'), !.
 
 takeDecision('TurnLeft') :-
     hasValue('LeftColorSensor', 'Yellow').
 takeDecision('MoveForward') :-
     hasValue('LeftColorSensor', 'Yellow').
 takeDecision('Eat') :-
-    hasValue('LeftColorSensor', 'Yellow'),!.
+    hasValue('LeftColorSensor', 'Yellow'), !.
 
 takeDecision('MoveForward') :-
-    hasValue('FrontColorSensor', 'White'),!.
+    hasValue('FrontColorSensor', 'White'), !.
 
 takeDecision('TurnRight') :-
     hasValue('RightColorSensor', 'White').
 takeDecision('MoveForward') :-
-    hasValue('RightColorSensor', 'White'),!.
+    hasValue('RightColorSensor', 'White'), !.
 
 takeDecision('TurnLeft') :-
     hasValue('LeftColorSensor', 'White').
 takeDecision('MoveForward') :-
-    hasValue('LeftColorSensor', 'White'),!.
+    hasValue('LeftColorSensor', 'White'), !.
 
 
 
-takeDecision('MoveBackward') :-
-    hasValue('FrontColorSensor', 'Red'),hasValue('RightColorSensor', 'Red'),hasValue('LeftColorSensor', 'Red'),!.
+takeDecision('TurnBackward') :-
+    hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Red'),!.
