@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-import prothonics
+# import prothonics
 import numpy as np
-from time import sleep
+import time
 from pyvrep import VRep
 from pyvrep.sensors import VisionSensor
-
-# color_sensor_front = ColorSensor(INPUT_3)
-# color_sensor_right = ColorSensor(INPUT_4)
-# color_sensor_left = ColorSensor(INPUT_1)
+import random
+WHITE = 108.0
+RED = 38.0
+YELLOW = 70.0
 
 
 class PioneerP3DX:
@@ -18,28 +18,41 @@ class PioneerP3DX:
             "Pioneer_p3dx_leftMotor")
         self._right_motor = api.joint.with_velocity_control(
             "Pioneer_p3dx_rightMotor")
+        # self.set_two_motor(0.0,0.0)
+
         self._left_sensor = api.sensor.vision(
-            "LeftColorSensor")  # type: VisionSensor
+            "LeftRGBSensor")  # type: VisionSensor
         self._right_sensor = api.sensor.vision(
-            "RightColorSensor")  # type: VisionSensor
+            "RightRGBSensor")  # type: VisionSensor
         self._front_sensor = api.sensor.vision(
-            "FrontColorSensor")  # type: VisionSensor
+            "FrontRGBSensor")  # type: VisionSensor
 
     def set_two_motor(self, left: float, right: float):
         self._left_motor.set_target_velocity(left)
         self._right_motor.set_target_velocity(right)
 
     def rotate_right(self, speed=2.0):
+
         self.set_two_motor(speed, -speed)
+        print("rotate_right")
 
     def rotate_left(self, speed=2.0):
+        # t = time.process_time()
         self.set_two_motor(-speed, speed)
+        print("rotate_left")
+        # return time.process_time()-t
 
     def move_forward(self, speed=2.0):
+
         self.set_two_motor(speed, speed)
+        print("move forward")
 
     def move_backward(self, speed=2.0):
         self.set_two_motor(-speed, -speed)
+        print("move_backward")
+
+    def reset_velocity(self):
+        self.set_two_motor(0.0, 0.0)
 
     def right_color(self) -> int:
         image = self._right_sensor.raw_image(
@@ -53,26 +66,53 @@ class PioneerP3DX:
         average = sum(image) / len(image)
         return average
 
+    def front_color(self) -> int:
+        image = self._front_sensor.raw_image(
+            is_grey_scale=True)  # type: List[int]
+        average = sum(image) / len(image)
+        return average
+
 
 colors = ["Unknown", "Black", "Blue", "Green",
           "Yellow", "Red", "White", "Brown"]
-blindRobot = prothonics.Prothonics(1, 1)
-blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
+# blindRobot = prothonics.Prothonics(1, 1)
+# blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 
 with VRep.connect("127.0.0.1", 19997) as api:
     robot = PioneerP3DX(api)
-    # black color      :  43
-    # white-gray color : -53
+    # robot.reset_velocity()
     while True:
-        print(robot.left_color())
-        robot.move_forward(1)
-        # lclr = robot.left_color()
-        # rclr = robot.right_color()
-        # if lclr > 10:
-        #     robot.rotate_left(0.3)
-        # if rclr > 10:
-        #     robot.rotate_right(0.3)
-        # if lclr < -20 and rclr < -20:
-        #     robot.move_forward(0.3)
+        left_color = robot.left_color()
+        right_color = robot.right_color()
+        front_color = robot.front_color()
+    # robot.move_backward(5)
 
-        sleep(0.01)
+    # te = robot.rotate_left(3.1)
+    # t = time.process_time()
+
+    # time.sleep(2-((time.process_time()-t)+te))
+    # robot.reset_velocity()
+    # robot.move_forward(0)
+    # robot.rotate_left(0)
+    # sleep(1)
+    # robot.move_forward(5)
+    # robot.move_forward()
+        if front_color == YELLOW:
+            robot.move_forward()
+        elif right_color == YELLOW:
+            robot.rotate_right()
+            robot.move_forward()
+        elif left_color == YELLOW:
+            robot.rotate_left()
+            robot.move_forward()
+        elif front_color == WHITE:
+            robot.move_forward()
+        elif right_color == WHITE:
+            robot.rotate_right()
+            robot.move_forward()
+        elif left_color == WHITE:
+            robot.rotate_left()
+            robot.move_forward()
+        else:
+            robot.move_backward()
+        time.sleep(0.1)
