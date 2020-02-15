@@ -37,5 +37,5 @@ takeDecision('MoveForward') :-
 
 
 
-takeDecision('TurnBackward') :-
+takeDecision('MoveBackward') :-
     hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Red'),!.
