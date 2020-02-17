@@ -19,11 +19,10 @@ class PioneerP3DX:
 
     def __init__(self, api: VRep):
         self._api = api
-        self._left_motor = api.joint.with_position_control(
+        self._left_motor = api.joint.with_velocity_control(
             "Pioneer_p3dx_leftMotor")
-        self._right_motor = api.joint.with_position_control(
+        self._right_motor = api.joint.with_velocity_control(
             "Pioneer_p3dx_rightMotor")
-        self.robot=api.joint.with_position_control("Pioneer_p3dx")
         # self.set_two_motor(0.0,0.0)
 
         self._left_sensor = api.sensor.vision(
@@ -45,8 +44,8 @@ class PioneerP3DX:
         func(speed)
 
     def set_two_motor(self, left: float, right: float):
-        self.robot.set_target_position(5)
-        # self._right_motor.set_target_position(right)
+        self._left_motor.set_target_velocity(left)
+        self._right_motor.set_target_velocity(right)
 
     def turn_right(self, speed=2.0):
 
@@ -101,9 +100,26 @@ class PioneerP3DX:
 def run():
     with VRep.connect("127.0.0.1", 19997) as api:
         robot = PioneerP3DX(api)
-        # robot.reset_velocity()
+        robot.reset_velocity()
 
-        robot.move_forward()
+        while True:
+            # sense
+            front_color = robot.front_color()
+            right_color = robot.right_color()
+            left_color = robot.left_color()
+            # print(front_color, right_color, left_color)
+            # time.sleep(0.5)
+            # plan
+            decisions = robot.plan([front_color, right_color, left_color])
+            # print("decisions:", decisions)
+
+            # act
+            for decision in eval(decisions):
+
+                robot.process_command(decision['D'])
+                time.sleep(1)  # burada robot hareket ediyor, bunu bekliyoruz
+                robot.reset_velocity()
+            time.sleep(0.1)
 
 
 run()
