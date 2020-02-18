@@ -29,8 +29,8 @@ $ python3 main.py
 ```
 ## Contact
 
-Dila Aslan - github.com/dilaaslan3
-Mustafa Yumurtacı github.com/mstfymrtc
+  - Dila Aslan - https://github.com/dilaaslan3
+  - Mustafa Yumurtacı https://github.com/mstfymrtc
 
 
 ## Licence
