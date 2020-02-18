@@ -4,38 +4,30 @@ hasValue('LeftColorSensor', S3) :- perception([_, _, S3]).
 
 
 takeDecision('MoveForward') :-
-    hasValue('FrontColorSensor', 'Yellow').
+    hasValue('FrontColorSensor', 'Green').
 takeDecision('Eat') :-
+    hasValue('FrontColorSensor', 'Green'), !.
+
+takeDecision('RotateRight') :-
+    hasValue('RightColorSensor', 'Green').
+takeDecision('Eat') :-
+    hasValue('RightColorSensor', 'Green'), !.
+
+takeDecision('RotateLeft') :-
+    hasValue('LeftColorSensor', 'Green').
+takeDecision('Eat') :-
+    hasValue('LeftColorSensor', 'Green'), !.
+
+takeDecision('MoveForward') :-
     hasValue('FrontColorSensor', 'Yellow'), !.
 
-takeDecision('TurnRight') :-
-    hasValue('RightColorSensor', 'Yellow').
-takeDecision('MoveForward') :-
-    hasValue('RightColorSensor', 'Yellow').
-takeDecision('Eat') :-
+takeDecision('RotateRight') :-
     hasValue('RightColorSensor', 'Yellow'), !.
 
-takeDecision('TurnLeft') :-
-    hasValue('LeftColorSensor', 'Yellow').
-takeDecision('MoveForward') :-
-    hasValue('LeftColorSensor', 'Yellow').
-takeDecision('Eat') :-
+takeDecision('RotateLeft') :-
     hasValue('LeftColorSensor', 'Yellow'), !.
 
-takeDecision('MoveForward') :-
-    hasValue('FrontColorSensor', 'White'), !.
 
-takeDecision('TurnRight') :-
-    hasValue('RightColorSensor', 'White').
-takeDecision('MoveForward') :-
-    hasValue('RightColorSensor', 'White'), !.
-
-takeDecision('TurnLeft') :-
-    hasValue('LeftColorSensor', 'White').
-takeDecision('MoveForward') :-
-    hasValue('LeftColorSensor', 'White'), !.
-
-
-
-takeDecision('MoveBackward') :-
+%MoveBackward for vrep
+takeDecision('TurnBackward') :-
     hasValue('FrontColorSensor', 'Red'), hasValue('RightColorSensor', 'Red'), hasValue('LeftColorSensor', 'Red'),!.

@@ -57,50 +57,42 @@ def map_decision_to_action(decision):
     switcher = {
         "MoveForward": move_forward,
         "TurnBackward": turn_backward,
-        "TurnRight": turn_right,
-        "TurnLeft": turn_left,
+        "RotateRight": rotate_right,
+        "RotateLeft": rotate_left,
         "Eat": eat,
     }
     func = switcher.get(decision, lambda: "Undefined decision")
     func()
 
 
-def unknown_color():
-    sound.speak('Unknown color!', espeak_opts='-a 200 -s 130 -v en+f1')
-
-
 def move_forward():
-    tank_drive.on_for_rotations(SpeedPercent(10), SpeedPercent(10), 0.9)
+    tank_drive.on_for_rotations(SpeedPercent(10), SpeedPercent(10), 0.85)
     print("I moved forward")
     tank_drive.off()
 
 
-def turn_right():
-    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.55)
+def rotate_right():
+    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.25)
     tank_drive.on(SpeedPercent(10), SpeedPercent(-10))
     gyro_sensor.wait_until_angle_changed_by(87)
-    print("I turned right")
+    tank_drive.on_for_rotations(SpeedPercent(10), SpeedPercent(10), 1.1)
+    print("I rotated to right")
     tank_drive.off()
 
 
-def move_backward():
-    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.55)
-    print("I moved backward")
-    tank_drive.off()
-
-
-def turn_left():
-    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.55)
+def rotate_left():
+    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.25)
     tank_drive.on(SpeedPercent(-10), SpeedPercent(10))
-    gyro_sensor.wait_until_angle_changed_by(85)
-    print("I turned left")
+    gyro_sensor.wait_until_angle_changed_by(83)
+    tank_drive.on_for_rotations(SpeedPercent(10), SpeedPercent(10), 1.1)
+    print("I rotated to left")
     tank_drive.off()
 
 
 def turn_backward():
-    tank_drive.on_for_rotations(SpeedPercent(-10), SpeedPercent(-10), 0.55)
-    tank_drive.on(SpeedPercent(-10), SpeedPercent(10))
-    gyro_sensor.wait_until_angle_changed_by(175)
+    tank_drive.on(SpeedPercent(10), SpeedPercent(-10))
+    gyro_sensor.wait_until_angle_changed_by(180)
+    tank_drive.on_for_rotations(SpeedPercent(10), SpeedPercent(10), 0.50)
     print("I turned backward")
     tank_drive.off()
 
@@ -117,6 +109,7 @@ blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
 while True:
     sleep(1)
 
+    # sense
     front_sensor_value = color_sensor_front.color
     right_sensor_value = color_sensor_right.color
     left_sensor_value = color_sensor_left.color
@@ -124,22 +117,23 @@ while True:
                                        colors[right_sensor_value],
                                        colors[left_sensor_value]))
 
-    # check if any sensor detected incorrect value, if yes, dont run plan
-    if front_sensor_value not in [4, 5, 6] or right_sensor_value not in [4, 5, 6] or left_sensor_value not in [4, 5, 6]:
-        unknown_color()
-        continue
+    # check if any sensor detected incorrect value except red and green, accept it as yellow 
+    if front_sensor_value not in [3, 5]:
+        front_sensor_value = 4
+    if right_sensor_value not in [3, 5]:
+        right_sensor_value = 4
+    if left_sensor_value not in [3, 5]:
+        left_sensor_value = 4
 
+    # plan
     blindRobot.useBrain().reactTo(
         "perception(['{}', '{}', '{}'])".format(colors[front_sensor_value], colors[right_sensor_value], colors[left_sensor_value]),  "takeDecision()")
 
     print("Decisions:")
     decisions = blindRobot.useBrain().useMemory().getAllDecisions()[0][0]
 
+    # act
+    
     for decision in eval(decisions):
         map_decision_to_action(decision['D'])
 
-
-# random.choice([4, 5,6])
-
-# TODO: Eğer hiçbiri olmazsa, multi threading denenebilir:
-# https://sites.google.com/site/ev3python/learn_ev3_python/threads

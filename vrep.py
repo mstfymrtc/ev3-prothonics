@@ -6,9 +6,9 @@ from pyvrep import VRep
 from pyvrep.sensors import VisionSensor
 import random
 colors = {
-    -29: "White",
+    -102: "Yellow",
     81: "Red",
-    -102: "Yellow"
+    49: "Green"
 }
 
 blindRobot = prothonics.Prothonics(1, 1)
@@ -35,9 +35,9 @@ class PioneerP3DX:
     def process_command(self, command, speed=2.0):
         switcher = {
             "MoveForward": self.move_forward,
-            "MoveBackward": self.move_backward,
-            "TurnRight": self.turn_right,
-            "TurnLeft": self.turn_left,
+            "TurnBackward": self.turn_backward,
+            "RotateRight": self.rotate_right,
+            "RotateLeft": self.rotate_left,
             "Eat": self.eat,
         }
         func = switcher.get(command, lambda: "Undefined command")
@@ -47,12 +47,12 @@ class PioneerP3DX:
         self._left_motor.set_target_velocity(left)
         self._right_motor.set_target_velocity(right)
 
-    def turn_right(self, speed=2.0):
+    def rotate_right(self, speed=2.0):
 
-        self.set_two_motor(0.75, -0.75)
+        self.set_two_motor(0.7, -0.7)
         print("turn_right")
 
-    def turn_left(self, speed=2.0):
+    def rotate_left(self, speed=2.0):
         self.set_two_motor(-0.75, 0.75)
         print("turn_left")
 
@@ -60,12 +60,12 @@ class PioneerP3DX:
         self.set_two_motor(1.4, 1.4)
         print("move forward")
 
-    def move_backward(self, speed=2.0):
+    def turn_backward(self, speed=2.0):
         self.set_two_motor(-1.6, 1.6)
         print("move_backward")
 
-    def eat(self, speed):
-        print("eaaaat")
+    def eat(self, speed=2.0):
+        print("eat")
 
     def reset_velocity(self):
         self.set_two_motor(0.0, 0.0)
@@ -107,21 +107,14 @@ def run():
             front_color = robot.front_color()
             right_color = robot.right_color()
             left_color = robot.left_color()
-            # print(front_color, right_color, left_color)
-            # time.sleep(0.5)
             # plan
             decisions = robot.plan([front_color, right_color, left_color])
-            # print("decisions:", decisions)
 
             # act
             for decision in eval(decisions):
 
                 robot.process_command(decision['D'])
-                time.sleep(1)  # burada robot hareket ediyor, bunu bekliyoruz
+                time.sleep(1)
                 robot.reset_velocity()
             time.sleep(0.1)
-
-
 run()
-# blindRobot = prothonics.Prothonics(1, 1)
-# blindRobot.useBrain().useLearning().learnKnowledgeBaseFromFile("behaviour.pl")
