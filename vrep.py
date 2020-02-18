@@ -31,6 +31,7 @@ class PioneerP3DX:
             "RightRGBSensor")  # type: VisionSensor
         self._front_sensor = api.sensor.vision(
             "FrontRGBSensor")  # type: VisionSensor
+        self.score=0
 
     def process_command(self, command, speed=2.0):
         switcher = {
@@ -65,7 +66,8 @@ class PioneerP3DX:
         print("move_backward")
 
     def eat(self, speed=2.0):
-        print("eat")
+        self.score=self.score+1
+        print("SCORE:",self.score)
 
     def reset_velocity(self):
         self.set_two_motor(0.0, 0.0)
