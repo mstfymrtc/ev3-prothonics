@@ -1,5 +1,6 @@
 # ev3-prothonics
-Lego Ev3 Mindstorms robot project that uses SWI-Prolog to perform reasoning with support of Prothonics.
+Lego Ev3 Mindstorms robot project that uses SWI-Prolog to perform reasoning with the support of Prothonics.
+(University of L'Aquila, Intelligence Systems and Robotics Laboratory Course - 2020)
 
 # Features
 
@@ -16,9 +17,9 @@ Lego Ev3 Mindstorms robot project that uses SWI-Prolog to perform reasoning with
 4. [Prothonics](https://github.com/agnsal/prothonics)
 
 
-To install numpy, swi-prolog and pyswip ev3dev-stretch, using `sudo apt install python3-*` command is recommended instead of pip3. 
+To install dependencies on ev3dev-stretch, `sudo apt install python3-*` recommended. 
+If pip needs to be used, than it's recommended to use it with `sudo python3 -m pip install pyswip` instead of `pip install`.
 
-Pyswip has to be installed using `sudo python3 -m pip install pyswip`, because only `pip` or `pip3` command on ev3dev-strecth might not work efficienly.
 
 ## Usage
 
@@ -29,8 +30,8 @@ $ python3 main.py
 ```
 ## Contact
 
-Dila Aslan - github.com/dilaaslan3
-Mustafa Yumurtacı github.com/mstfymrtc
+  - Dila Aslan - https://github.com/dilaaslan3
+  - Mustafa Yumurtacı https://github.com/mstfymrtc
 
 
 ## Licence
