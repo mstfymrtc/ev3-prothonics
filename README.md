@@ -1,5 +1,6 @@
 # ev3-prothonics
-Lego Ev3 Mindstorms robot project that uses SWI-Prolog to perform reasoning with support of Prothonics.
+Lego Ev3 Mindstorms robot project that uses SWI-Prolog to perform reasoning with the support of Prothonics.
+(University of L'Aquila, Intelligence Systems and Robotics Laboratory Course - 2020)
 
 # Features
 
