@@ -30,7 +30,6 @@ $ python3 main.py
 ```
 ## Contact
 
-  - Dila Aslan - https://github.com/dilaaslan3
   - Mustafa Yumurtacı https://github.com/mstfymrtc
 
 
